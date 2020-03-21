@@ -1,0 +1,10 @@
+{
+  "name": "sls-backend-testing",
+  "version": "1.0.0",
+  "description": "Serverless Framework Backend Testing",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^7.0.2"
+  }
+}
