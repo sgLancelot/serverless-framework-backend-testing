@@ -1,5 +1,5 @@
 const dynamodb = require('aws-sdk/clients/dynamodb')
-const docClient = new dynamodb.DocumentClient()
+const docClient = new dynamodb.DocumentClient({ convertEmptyValues: true })
 
 const uuid = require('uuid')
 
@@ -18,6 +18,27 @@ module.exports.post = async event => {
         additional: data.additional,
         createdAt: timestamp
       }
+  }
+
+  try {
+    await docClient.put(params).promise()
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      body: 'Successfully posted to DDB!'
+    }
+  } catch(exception) {
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      body: 'Failed to post to DDB!'
+    }
   }
 
   const ddbPromise = await docClient.put(params).promise()
